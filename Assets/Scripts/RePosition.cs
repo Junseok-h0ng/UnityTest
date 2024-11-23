@@ -3,6 +3,12 @@ using UnityEngine;
 public class RePosition : MonoBehaviour
 {
     // 플레이어가 Area를 벗어날 때 호출되는 함수
+    Collider2D col;
+
+    void Awake()
+    {
+        col = GetComponent<Collider2D>();
+    }
     void Start()
     {
         Debug.Log("Start called");
@@ -22,7 +28,7 @@ public class RePosition : MonoBehaviour
         // 플레이어와 현재 오브젝트의 위치 가져오기
         Vector3 playerPos = GameManager.instance.player.transform.position;
         Vector3 myPos = transform.position;
-        Debug.Log($"playerPos: {playerPos}, myPos: {myPos}");
+        //  Debug.Log($"playerPos: {playerPos}, myPos: {myPos}");
         // X축과 Y축의 거리 차이 계산
         float diffX = Mathf.Abs(playerPos.x - myPos.x);
         float diffY = Mathf.Abs(playerPos.y - myPos.y);
@@ -33,9 +39,11 @@ public class RePosition : MonoBehaviour
         // 이동 방향에 따라 -1 또는 1 설정
         float dirX = playerDir.x < 0 ? -1 : 1;
         float dirY = playerDir.y < 0 ? -1 : 1;
+        Debug.Log($"transform.tag: {transform.tag}");
 
         switch (transform.tag)
         {
+
             case "Ground":
 
                 // X축 차이가 더 큰 경우 좌우로 재배치
@@ -49,7 +57,12 @@ public class RePosition : MonoBehaviour
                     transform.Translate(Vector3.up * dirY * 40);
                 }
                 break;
-            case "Enemey":
+            case "Enemy":
+                Debug.Log("Enemy called");
+                if (col.enabled)
+                {
+                    transform.Translate(playerDir * 20 + new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0));
+                }
                 break;
 
 
