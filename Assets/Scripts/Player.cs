@@ -4,8 +4,8 @@ public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     [SerializeField]
-    float speed = 3f ;
-    
+    float speed = 100f;
+
     Rigidbody2D rigid;
     SpriteRenderer spriter;
     Animator animator;
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -37,12 +37,12 @@ public class Player : MonoBehaviour
 
     void LateUpdate()
     {
-        
-        if(inputVec.x != 0)
+
+        if (inputVec.x != 0)
         {
             spriter.flipX = inputVec.x < 0;
         }
-        
+
         animator.SetFloat("Speed", inputVec.magnitude);
     }
 }
