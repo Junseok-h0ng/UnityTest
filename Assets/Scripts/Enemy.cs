@@ -3,7 +3,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float speed = 10f;
-    public Rigidbody2D target;
+    Rigidbody2D target;
     bool isLive = true;
     Rigidbody2D rigid;
     SpriteRenderer sprite;
@@ -40,5 +40,10 @@ public class Enemy : MonoBehaviour
     void LateUpdate()
     {
         sprite.flipX = target.position.x < rigid.position.x;
+    }
+
+    void OnEnable()
+    {
+        target = GameManager.instance.player.GetComponent<Rigidbody2D>();
     }
 }
