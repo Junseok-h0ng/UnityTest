@@ -21,6 +21,7 @@ public class RePosition : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
+        Debug.Log($"OnTriggerExit2D called with: {other.gameObject.name}, Tag: {other.tag}");
         // Area 태그가 아닌 경우 무시
         if (!other.CompareTag("Area"))
             return;
