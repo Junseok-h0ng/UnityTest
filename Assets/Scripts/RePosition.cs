@@ -33,14 +33,14 @@ public class RePosition : MonoBehaviour
         // X축과 Y축의 거리 차이 계산
         float diffX = Mathf.Abs(playerPos.x - myPos.x);
         float diffY = Mathf.Abs(playerPos.y - myPos.y);
-        Debug.Log($"diffX: {diffX}, diffY: {diffY}");
+        // Debug.Log($"diffX: {diffX}, diffY: {diffY}");
 
         // 플레이어의 이동 방향 가져오기
         Vector3 playerDir = GameManager.instance.player.inputVec;
         // 이동 방향에 따라 -1 또는 1 설정
         float dirX = playerDir.x < 0 ? -1 : 1;
         float dirY = playerDir.y < 0 ? -1 : 1;
-        Debug.Log($"transform.tag: {transform.tag}");
+        //Debug.Log($"transform.tag: {transform.tag}");
 
         switch (transform.tag)
         {
