@@ -4,10 +4,34 @@ public class Bullet : MonoBehaviour
 {
     public float damage;
     public int per;
+    Rigidbody2D rb;
 
-    public void Init(float damage, int per)
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+    public void Init(float damage, int per, Vector3 dir)
     {
         this.damage = damage;
         this.per = per;
+
+        if (per > -1)
+        {
+            rb.linearVelocity = dir * 15f;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.CompareTag("Enemy") || per == -1)
+            return;
+
+        per--;
+        if (per == -1)
+        {
+            rb.linearVelocity = Vector2.zero;
+            gameObject.SetActive(false);
+        }
     }
 }

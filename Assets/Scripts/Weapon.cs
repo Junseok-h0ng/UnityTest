@@ -8,7 +8,13 @@ public class Weapon : MonoBehaviour
     public int count;
     public float speed;
 
+    Player player;
+    float timer;
     // Start is called before the first frame update
+    void Awake()
+    {
+        player = GetComponentInParent<Player>();
+    }
     void Start()
     {
         Init();
@@ -23,15 +29,34 @@ public class Weapon : MonoBehaviour
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
                 break;
             default:
+                timer += Time.deltaTime;
+                if (timer > speed)
+                {
+                    timer = 0f;
+                    Fire();
+                }
                 break;
         }
         // 테스트 코드
         if (Input.GetButtonDown("Jump"))
         {
-            Debug.Log("LevelUp 호출");
             LevelUp(20, 10);
         }
 
+    }
+    void Fire()
+    {
+        if (!player.scanner.nearestTarget)
+            return;
+
+        Vector3 targetPos = player.scanner.nearestTarget.position;
+        Vector3 dir = targetPos - transform.position;
+        dir = dir.normalized;
+
+        Transform bullet = GameManager.instance.pool.Get(2).transform;
+        bullet.position = transform.position;
+        bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+        bullet.GetComponent<Bullet>().Init(damage, count, dir);
     }
 
     public void LevelUp(float damage, int count)
@@ -54,6 +79,7 @@ public class Weapon : MonoBehaviour
                 Debug.Log("Batch 후");
                 break;
             default:
+                speed = 0.3f;
                 break;
         }
 
@@ -85,7 +111,7 @@ public class Weapon : MonoBehaviour
 
             // 위쪽 방향으로 1.5 위치시킴
             bullet.Translate(bullet.up * 1.5f, Space.World);
-            bullet.GetComponent<Bullet>().Init(damage, -1); // -1은 무한발사
+            bullet.GetComponent<Bullet>().Init(damage, -1, Vector3.zero); // -1은 무한발사
 
 
         }

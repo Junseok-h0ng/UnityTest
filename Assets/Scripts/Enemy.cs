@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
@@ -12,11 +13,14 @@ public class Enemy : MonoBehaviour
     SpriteRenderer sprite;
     Animator anim;
 
+    WaitForFixedUpdate wait;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        wait = new WaitForFixedUpdate();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -66,16 +70,19 @@ public class Enemy : MonoBehaviour
         maxHealth = data.health;
     }
 
-     void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if(!other.CompareTag("Bullet"))
+        if (!other.CompareTag("Bullet"))
             return;
 
-        health -=other.GetComponent<Bullet>().damage;
+        health -= other.GetComponent<Bullet>().damage;
 
-        if(health > 0)
+        StartCoroutine(KnockBack());
+
+        if (health > 0)
         {
             //..Live, Hit Action
+            anim.SetTrigger("Hit");
         }
         else
         {
@@ -83,6 +90,15 @@ public class Enemy : MonoBehaviour
             Dead();
         }
     }
+
+    IEnumerator KnockBack()
+    {
+        yield return wait;
+        Vector3 playerPos = GameManager.instance.player.transform.position;
+        Vector3 dirVec = transform.position - playerPos;
+        rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+    }
+
     void Dead()
     {
         gameObject.SetActive(false);
