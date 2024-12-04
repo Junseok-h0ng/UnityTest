@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public PoolManager pool;
 
     [Header("# Player Info")]
+    public int health;
+    public int maxHealth;
     public int level;
     public int kill;
     public int exp;
@@ -20,6 +22,11 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+    }
+
+    void Start()
+    {
+        health = maxHealth;
     }
 
     void Update()
