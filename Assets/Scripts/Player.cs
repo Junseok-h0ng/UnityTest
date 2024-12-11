@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     [SerializeField]
-    float speed = 100f;
+    public float speed = 100f;
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
