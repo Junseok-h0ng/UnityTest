@@ -18,4 +18,5 @@ public class ItemData : ScriptableObject
     public int[] count;
     [Header("# Weapon")]
     public GameObject projectile;
+    public Sprite hand;
 }

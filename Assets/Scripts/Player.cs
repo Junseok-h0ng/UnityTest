@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
     public Vector2 inputVec;
     [SerializeField]
     public float speed = 100f;
+    public Hand[] hands;
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         scanner = GetComponent<Scanner>();
+        hands = GetComponentsInChildren<Hand>(true);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

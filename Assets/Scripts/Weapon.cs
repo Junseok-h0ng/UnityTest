@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour
     public float speed;
 
     Player player;
+    
     float timer;
     // Start is called before the first frame update
     void Awake()
@@ -102,7 +103,12 @@ public class Weapon : MonoBehaviour
                 break;
         }
         
-            player.BroadcastMessage("ApplyGear" , SendMessageOptions.DontRequireReceiver);
+        //Hand Set
+        Hand hand = player.hands[(int)data.itemType];
+        hand.sprite.sprite = data.hand;
+        hand.gameObject.SetActive(true);
+
+        player.BroadcastMessage("ApplyGear" , SendMessageOptions.DontRequireReceiver);
     }
 
     void Batch()
